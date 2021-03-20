@@ -9,8 +9,8 @@ public class WeatherService {
         self.appid = appid
     }
     
-    public func getWeather(byCity city: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
-        var components = self.componentsWithAppId()
+    public func loadWeather(byCity city: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
+        var components = self.baseComponents()
 
         components.queryItems!.append(URLQueryItem(
             name: "q",
@@ -20,8 +20,8 @@ public class WeatherService {
         self.fetchWeatherData(with: components.url!, completionHandler: completionHandler);
     }
 
-    public func getWeather(byCoordinates coordinates: Coordinates, completionHandler: @escaping (WeatherData) -> Void) -> Void {
-        var components = self.componentsWithAppId()
+    public func loadWeather(byCoordinates coordinates: Coordinates, completionHandler: @escaping (WeatherData) -> Void) -> Void {
+        var components = self.baseComponents()
 
         components.queryItems!.append(contentsOf: [
             URLQueryItem(
@@ -37,8 +37,8 @@ public class WeatherService {
         self.fetchWeatherData(with: components.url!, completionHandler: completionHandler);
     }
 
-    public func getWeather(byZipCode zipCode: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
-        var components = self.componentsWithAppId()
+    public func loadWeather(byZipCode zipCode: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
+        var components = self.baseComponents()
 
         components.queryItems!.append(URLQueryItem(
             name: "zip",
@@ -79,7 +79,7 @@ public class WeatherService {
         task.resume();
     }
 
-    private func componentsWithAppId() -> URLComponents { 
+    private func baseComponents() -> URLComponents { 
         var components = URLComponents(string: self.apiUrl)!
 
         let appid = URLQueryItem(
@@ -87,7 +87,12 @@ public class WeatherService {
             value: self.appid
         )
 
-        components.queryItems = [appid]
+        let units = URLQueryItem(
+            name: "units",
+            value: "metric"
+        )
+
+        components.queryItems = [appid, units]
         return components
     }
 }
@@ -102,5 +107,14 @@ public struct Coordinates {
 }
 
 public struct WeatherData : Decodable {
+    let main: WeatherMain
+}
 
+public struct WeatherMain : Decodable {
+    let feels_like: Double
+    let humidity: Int8
+    let pressure: Int16
+    let temp: Double
+    let temp_max: Double
+    let temp_min: Double
 }
