@@ -9,7 +9,7 @@ public class WeatherService {
         self.appid = appid
     }
     
-    func getWeather(byCity city: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
+    public func getWeather(byCity city: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
         var components = self.componentsWithAppId()
 
         components.queryItems!.append(URLQueryItem(
@@ -20,7 +20,7 @@ public class WeatherService {
         self.fetchWeatherData(with: components.url!, completionHandler: completionHandler);
     }
 
-    func getWeather(byCoordinates coordinates: Coordinates, completionHandler: @escaping (WeatherData) -> Void) -> Void {
+    public func getWeather(byCoordinates coordinates: Coordinates, completionHandler: @escaping (WeatherData) -> Void) -> Void {
         var components = self.componentsWithAppId()
 
         components.queryItems!.append(contentsOf: [
@@ -37,7 +37,7 @@ public class WeatherService {
         self.fetchWeatherData(with: components.url!, completionHandler: completionHandler);
     }
 
-    func getWeather(byZipCode zipCode: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
+    public func getWeather(byZipCode zipCode: String, completionHandler: @escaping (WeatherData) -> Void) -> Void {
         var components = self.componentsWithAppId()
 
         components.queryItems!.append(URLQueryItem(
