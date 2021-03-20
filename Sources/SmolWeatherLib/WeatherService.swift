@@ -2,7 +2,7 @@ import Foundation
 import FoundationNetworking
 
 public class WeatherService {
-    private let apiUrl = "api.openweathermap.org/data/2.5/weather"
+    private let apiUrl = "https://api.openweathermap.org/data/2.5/weather"
     private let appid: String
 
     public init(appid: String) {
